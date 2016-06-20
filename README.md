@@ -26,14 +26,14 @@ PORT   STATE SERVICE    VERSION
 ...
 ```
 
-the Hue Hub uses DHCP by default, so it likely won't be at that address for you, but you get the idea.
+the Hue hub uses DHCP by default, so it likely won't be at that address for you, but you get the idea.
 
 now, you need to get a token. to do that, trick the Hue app on your phone/tablet/Echo to send it to us.
 
-  - stand up a webserver listening for GET of 0.0.0.0:80/api/config
-  - api/config needs to be JSON that a Hue Hub would return
-  - from your ipad/tablet/Echo, select Settings->Find Bridge->Search
-    * this works intermittently, as some times the app found the real Hub and the imposter, other times it would only find the real Hub, but would mostly end up with a 'Specify IP' button
+  - stand up a webserver listening for GET of 0.0.0.0:80/api/config on the same network (0/24) your phone/tablet/Echo is on
+  - api/config needs to be JSON that a Hue hub would return
+  - from your phone/tablet/Echo, select Settings->Find Bridge->Search
+    * this works intermittently, as some times the app found the real hub and the imposter, other times it would only find the real hub, but would mostly end up with a 'Specify IP' button
   - wait for the app to query your imposter, and you'll have a token
 
 by the numbers:

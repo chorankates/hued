@@ -14,10 +14,10 @@
         <manufacturerURL>http://www.philips.com</manufacturerURL>
         <modelDescription>Philips hue Personal Wireless Lighting</modelDescription>
         <modelName>Philips hue bridge 2012</modelName>
-        <modelNumber>929000226503</modelNumber>
+        <modelNumber>000</modelNumber>
         <modelURL>http://www.meethue.com</modelURL>
-        <serialNumber>001788145941</serialNumber>
-        <UDN>uuid:2f402f80-da50-11e1-9b23-001788145941</UDN>
+        <serialNumber>000</serialNumber>
+        <UDN>000</UDN>
         <presentationURL>index.html</presentationURL>
         <iconList>
             <icon>

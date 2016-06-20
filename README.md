@@ -1,7 +1,7 @@
 hue API
 ====
 
-want to talk to your hue lights directly through an HTTP API without registering an application?
+want to talk to your [Phillips Hue](http://www2.meethue.com/en-us/) lights directly through an HTTP API without registering an application?
 
 to turn off the currently-in-use lighting scheme:
 
@@ -93,14 +93,45 @@ api|description|GET|PUT
 `/schedules/`|set and query existing schedules/timers|JSON schedules/timers|/<uuid> => {"name":"Alarm","autodelete":false,"localtime":"2016-06-20T16:20:00","description":"giants","status":"enabled","command":{"address":"/api/eKpsfhR9K1u32/groups/0/action","body":{"scene":"f55e38250-on-0"},"method":"PUT"}}
 `/groups/`|set and query scene (?) groupings|empty JSON| /<id>/action => {"scene":"2fc89fcdb-on-0"}
 
+```
+~/hue $ curl http://192.168.42.66/api/eKpsfhR9K1u32/scenes
+{
+  "f4750b0cf-off-5": {
+    "name": "HIDDEN foff 1452936620159",
+    "lights": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "owner": "eKpsfhR9K1u32",
+    "recycle": true,
+    "locked": true,
+    "appdata": {
+
+    },
+    "picture": "",
+    "lastupdated": "2016-01-16T09:30:21",
+    "version": 1
+  },
+  ...
+}  
+```
+
 # TODO
   * dig further in api/<token>/config
     * determine how the hashes are generated. not concatenation of create time / name in any obvious way. different devices seem to come up with hashes in different ways. older iPhone/iPad apps were [A-Z0-9]{16}, while Android ones seem to always have been [A-Z]{32}
-  * write a client library? or at least some abstraction
+  * write a client library/binding? or at least some abstraction
 
-# details
+# notes
 
-all versions (except noted) tested are the latest available as of 2016/06/19
+all versions tested are the latest available as of 2016/06/19
 
 component|version|notes
 ---------|-------|-----

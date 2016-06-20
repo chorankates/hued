@@ -89,9 +89,9 @@ api|description|GET|PUT
 `/config/`|set and query existing settings|without token for unauthenticated, basic registration information, with token for light/device/schedule/sensor configuration|JSON matching schema validation|
 `/lights/`|scan and query existing lights|JSON scan status|empty body to start a scan
 `/sensors/`|scan and query existing sensors|JSON scan status|empty body to start a scan
-`/scenes/`|set and query existing scenes|JSON scene list| /<uuid>/lights/<id>/state => {"on":true,"xy":[0.5804,0.3995],"bri":253}
-`/schedules/`|set and query existing schedules/timers|JSON schedules/timers|/<uuid> => {"name":"Alarm","autodelete":false,"localtime":"2016-06-20T16:20:00","description":"giants","status":"enabled","command":{"address":"/api/eKpsfhR9K1u32/groups/0/action","body":{"scene":"f55e38250-on-0"},"method":"PUT"}}
-`/groups/`|set and query scene (?) groupings|empty JSON| /<id>/action => {"scene":"2fc89fcdb-on-0"}
+`/scenes/`|set and query existing scenes|JSON scene list| /\<uuid\>/lights/<id>/state => {"on":true,"xy":[0.5804,0.3995],"bri":253}
+`/schedules/`|set and query existing schedules/timers|JSON schedules/timers|/\<uuid\> => {"name":"Alarm","autodelete":false,"localtime":"2016-06-20T16:20:00","description":"giants","status":"enabled","command":{"address":"/api/eKpsfhR9K1u32/groups/0/action","body":{"scene":"f55e38250-on-0"},"method":"PUT"}}
+`/groups/`|set and query scene (?) groupings|empty JSON| /\<id\>/action => {"scene":"2fc89fcdb-on-0"}
 
 ```
 ~/hue $ curl http://192.168.42.66/api/eKpsfhR9K1u32/scenes
@@ -125,7 +125,7 @@ api|description|GET|PUT
 ```
 
 # TODO
-  * dig further in api/<token>/config
+  * dig further in api/\<token\>/config
     * determine how the hashes are generated. not concatenation of create time / name in any obvious way. different devices seem to come up with hashes in different ways. older iPhone/iPad apps were [A-Z0-9]{16}, while Android ones seem to always have been [A-Z]{32}
   * write a client library/binding? or at least some abstraction
 

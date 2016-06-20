@@ -22,9 +22,9 @@ module Hued
 
       @config = get_config()
 
-      @lights    = get_lights(@config)
-      @scenes    = get_scenes(@config)
-      @schedules = get_schedules(@config)
+      @lights    = get_lights()
+      @scenes    = get_scenes()
+      @schedules = get_schedules()
     end
 
     def inspect
@@ -46,24 +46,41 @@ module Hued
     end
 
     def get_lights(input = nil)
-      config = input.nil? ? get_config() : input
-      []
+      lights   = Array.new
+      response = JSON.parse(get_url(get_path('lights')).body)
+      response.each do |light|
+        lights << Hued::Light.new(light)
+      end
+
+      lights
     end
 
     def get_scenes(input = nil)
-      config = input.nil? ? get_config() : input
-      []
+      scenes = Array.new
+      response = JSON.parse(get_url(get_path('scenes')).body)
+      response.each do |scene|
+        scenes << Hued::Scene.new(scene)
+      end
+
+      scenes
     end
 
     def get_schedules(input = nil)
-      config = input.nil? ? get_config() : input
-      []
+      schedules = Array.new
+      response  = JSON.parse(get_url(get_path('schedules')).body)
+      response.each do |schedule|
+        schedules << Hued::Schedule.new(schedule)
+      end
+
+      schedules
     end
 
     def all_lights_on
+      raise 'not implemented'
     end
 
     def all_lights_off
+      raise 'not implemented'
     end
 
     ## helper functions
@@ -86,9 +103,22 @@ module Hued
 
   class Light
 
+    def initialize(hash)
+    end
+
   end
 
   class Scene
+
+    def initialize(hash)
+    end
+
+  end
+
+  class Schedule
+
+    def initialize(hash)
+    end
 
   end
 

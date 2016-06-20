@@ -48,8 +48,8 @@ module Hued
     def get_lights(input = nil)
       lights   = Array.new
       response = JSON.parse(get_url(get_path('lights')).body)
-      response.each do |light|
-        lights << Hued::Light.new(light)
+      response.each do |_i, hash|
+        lights << OpenStruct.new(hash)
       end
 
       lights
@@ -58,8 +58,8 @@ module Hued
     def get_scenes(input = nil)
       scenes = Array.new
       response = JSON.parse(get_url(get_path('scenes')).body)
-      response.each do |scene|
-        scenes << Hued::Scene.new(scene)
+      response.each do |_i, hash|
+        scenes << OpenStruct.new(hash)
       end
 
       scenes
@@ -68,8 +68,8 @@ module Hued
     def get_schedules(input = nil)
       schedules = Array.new
       response  = JSON.parse(get_url(get_path('schedules')).body)
-      response.each do |schedule|
-        schedules << Hued::Schedule.new(schedule)
+      response.each do |_i, hash|
+        schedules << OpenStruct.new(hash)
       end
 
       schedules
@@ -97,27 +97,6 @@ module Hued
     end
 
     def post_url(url, body)
-    end
-
-  end
-
-  class Light
-
-    def initialize(hash)
-    end
-
-  end
-
-  class Scene
-
-    def initialize(hash)
-    end
-
-  end
-
-  class Schedule
-
-    def initialize(hash)
     end
 
   end

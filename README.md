@@ -7,7 +7,7 @@ hued - (?:ab)using the Hue HTTP API
 
 # writeup
 
-want to talk to your [Phillips Hue](http://www2.meethue.com/en-us/) lights directly through an HTTP API without registering an application?
+want to talk to your [Philips Hue](http://www2.meethue.com/en-us/) lights directly through an HTTP API without registering an application?
 
 to turn off the currently-in-use lighting scheme:
 
@@ -138,7 +138,7 @@ all versions tested are the latest available as of 2016/06/19
 
 component|version|notes
 ---------|-------|-----
-Phillips Hue Hub|5.23.1.13452|
+Philips Hue Hub|5.23.1.13452|
 Hue mobile App|1.12.1.0|same version reported on both Android and Apple devices
 
 TODO

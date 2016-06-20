@@ -14,5 +14,6 @@ Jeweler::Tasks.new do |gem|
   gem.authors     = ['Conor Horan-Kates', 'Maureen Long']
   gem.licenses    =  'MIT'
 
+  gem.executables = ['hued']
 end
 Jeweler::RubygemsDotOrgTasks.new

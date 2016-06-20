@@ -104,29 +104,5 @@ module Hued
 end
 
 if $0 == __FILE__
-
-  def parse_input
-    options = Hash.new
-
-    parser = OptionParser.new do |o|
-      o.on('--ip <ip>', 'IP address of Phillips Hue Hub') do |p|
-        options[:ip] = p
-      end
-      o.on('--token <token>', 'whitelisted token') do |p|
-        options[:token] = p
-      end
-    end
-
-    parser.parse!
-    options
-  end
-
-  options = parse_input
-
-  hub = Hued::Hub.new(options[:ip], options[:token])
-
-  hub.all_lights_off
-  sleep 5
-  hub.all_lights_on
-
+  raise "you're probably looking for bin/hued"
 end

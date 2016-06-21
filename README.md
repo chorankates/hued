@@ -146,4 +146,4 @@ TODO
   * determine how the hashes are generated. not concatenation of create time / name in any obvious way. different devices seem to come up with hashes in different ways. older iPhone/iPad apps were [A-Z0-9]{16}, while Android ones seem to always have been [A-Z]{32}
 * write a client library/binding? or at least some abstraction
 * determine the truly necessary pieces of the imposter response, think it really only needs content-type and minimal JSON
-* work on SSDP discovery, see [description.xml](description.xml)
+* work on SSDP discovery, see [description.xml](resources/api/description.xml)

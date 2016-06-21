@@ -1,3 +1,9 @@
 
+# IDE/project files
+.rakeTasks
+
 # generated files
 pkg/*
+
+# other
+resources/research/*

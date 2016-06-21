@@ -23,6 +23,14 @@ options = parse_input
 
 hub = Hued::Hub.new(options[:ip], options[:token])
 
-hub.all_lights_off
+# TODO this should really be a REPL
+off = hub.all_lights_off
+puts "off: #{off}"
+
 sleep 5
-hub.all_lights_on
+
+on = hub.all_lights_on
+puts "on: #{on}"
+
+off = hub.all_lights_off
+puts "off(2): #{off}"

@@ -42,12 +42,12 @@ module Hued
     end
 
     def get_config
-      JSON.parse(get_url(get_path('config')).body)
+      JSON.parse(get_http(get_url('config')).body)
     end
 
     def get_lights(input = nil)
       lights   = Array.new
-      response = JSON.parse(get_url(get_path('lights')).body)
+      response = JSON.parse(get_http(get_url('lights')).body)
       response.each do |_i, hash|
         lights << OpenStruct.new(hash)
       end
@@ -57,7 +57,7 @@ module Hued
 
     def get_scenes(input = nil)
       scenes = Array.new
-      response = JSON.parse(get_url(get_path('scenes')).body)
+      response = JSON.parse(get_http(get_url('scenes')).body)
       response.each do |_i, hash|
         scenes << OpenStruct.new(hash)
       end
@@ -67,7 +67,7 @@ module Hued
 
     def get_schedules(input = nil)
       schedules = Array.new
-      response  = JSON.parse(get_url(get_path('schedules')).body)
+      response  = JSON.parse(get_http(get_url('schedules')).body)
       response.each do |_i, hash|
         schedules << OpenStruct.new(hash)
       end
@@ -76,19 +76,23 @@ module Hued
     end
 
     def all_lights_on
-      raise 'not implemented'
+      url     = get_url('groups/0/action')
+      payload = { :on => true }
+      put_http(url, payload)
     end
 
     def all_lights_off
-      raise 'not implemented'
+      url     = get_url('groups/0/action')
+      payload = { :on => false }
+      put_http(url, payload)
     end
 
     ## helper functions
-    def get_path(method)
+    def get_url(method)
       sprintf('http://%s/api/%s/%s', @ip, @token, method)
     end
 
-    def get_url(url)
+    def get_http(url)
       uri      = URI.parse(url)
       http     = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = false
@@ -96,13 +100,16 @@ module Hued
       http.request(request)
     end
 
-    def post_url(url, body)
+    def put_http(url, body)
+      uri     = URI.parse(url)
+      http    = Net::HTTP.new(uri.host, uri.port)
+      request = Net::HTTP::Put.new(uri.request_uri)
+
+      request.add_field('Content-Type', 'application.json')
+      request.body = body.to_json
+      http.request(request)
     end
 
   end
 
-end
-
-if $0 == __FILE__
-  raise "you're probably looking for bin/hued"
 end

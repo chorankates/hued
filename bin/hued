@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 # hued - CLI for Hued module
 
-require 'hued'
+# TODO this could be better in the cases where the gem is installed - but conditionals about requiring are.. not fun
+require sprintf('%s/../lib/hued.rb', File.expand_path(File.dirname(__FILE__)))
+
+require 'socket'
 
 def parse_input
   options = Hash.new
@@ -19,18 +22,67 @@ def parse_input
   options
 end
 
+face    = ARGV.pop
 options = parse_input
 
-hub = Hued::Hub.new(options[:ip], options[:token])
+# TODO not sure this is the right model for initial redirection, different faces will have different required parameters
+if face.eql?('control')
+  # sort of unnecessary, but makes the model consistent
 
-# TODO this should really be a REPL
-off = hub.all_lights_off
-puts "off: #{off}"
+  hub = Hued::Hub.new(options[:ip], options[:token])
 
-sleep 5
+  # TODO start a REPL here instead
+  off = hub.all_lights_off
+  puts "off: #{off}"
 
-on = hub.all_lights_on
-puts "on: #{on}"
+  sleep 5
 
-off = hub.all_lights_off
-puts "off(2): #{off}"
+  on = hub.all_lights_on
+  puts "on: #{on}"
+
+  sleep 5
+
+  off = hub.all_lights_off
+  puts "off(2): #{off}"
+
+elsif face.eql?('impersonate')
+  # stand up a web server
+
+  server = TCPServer.new('0.0.0.0', 80) # will need sudo/root for this
+
+  puts sprintf('listening at[http://%s:%s]', server.addr.last, server.addr[1])
+
+  while true
+    socket  = server.accept
+    request = socket.gets
+
+    puts sprintf('  received[%s] from[%s]', request.chomp, socket.peeraddr.last)
+
+    response = [
+      'HTTP/1.1 200 OK',
+      'Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0',
+      'Pragma: no-cache',
+      'Expires: Mon, 1 Aug 2011 09:00:00 GMT',
+      'Connection: close',
+      'Access-Control-Max-Age: 3600',
+      'Access-Control-Allow-Credentials: true',
+      'Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE, HEAD',
+      'Access-Control-Allow-Headers: Content-Type',
+      'Content-type: application/json',
+      "\r\n",
+      '{"name":"Philips hue","swversion":"01032318","apiversion":"1.13.0","mac":"DE:AD:BE:EF:CA:FE","bridgeid":"001788FFFECAFE","factorynew":false,"replacesbridgeid":null,"modelid":"BSB001"}',
+    ].join("\n")
+
+    socket.print(response)
+    socket.close
+  end
+
+
+elsif face.eql?('backup')
+  # download all configs/settings
+elsif face.eql?('restore')
+  # restore all configs/settings
+else
+  # print usage.. how do we include the faces in the --help output?
+  exit 1
+end

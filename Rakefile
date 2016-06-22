@@ -11,7 +11,7 @@ Jeweler::Tasks.new do |gem|
   gem.description = 'interact with Philips Hue Hub to control your devices'
   gem.email       = ['conor.code@gmail.com']
   gem.homepage    = 'http://github.com/chorankates/hued'
-  gem.authors     = ['Conor Horan-Kates', 'Maureen Long']
+  gem.authors     = ['Conor Horan-Kates']
   gem.licenses    =  'MIT'
 
   gem.executables = ['hued']

@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
-  s.authors = ["Conor Horan-Kates", "Maureen Long"]
-  s.date = "2016-06-21"
+  s.authors = ["Conor Horan-Kates"]
+  s.date = "2016-06-22"
   s.description = "interact with Philips Hue Hub to control your devices"
   s.email = ["conor.code@gmail.com"]
   s.executables = ["hued"]
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "bin/hued",
+    "hued.gemspec",
     "lib/hued.rb",
     "resources/api/config",
     "resources/api/description.xml"

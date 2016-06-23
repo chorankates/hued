@@ -20,14 +20,39 @@ module Hued
     }
 
     attr_reader :struct
+    attr_reader :state, :brightness, :color, :reachable, :type, :name, :model, :mac, :version
 
     def initialize(struct)
       @struct = struct
 
+      @state      = @struct['state']['on'].eql?(true) ? :on : :off
+      @brightness = @struct['state']['bri']
+      @color      = nil # still need to determine how we're doing this.. model it separately with bri,hue,sat, and xy coords?
+      @reachable  = @struct['state']['reachable']
+      @type       = @struct['type']
+      @name       = @struct['name']
+      @model      = @struct['modelid']
+      @mac        = @struct['uniqueid']
+      @version    = @struct['swversion']
+
       # TODO add a real logger here
-      @logger = nil
-      @logger.debug(sprintf('initialized[%s]: [%s]', self.class, self.inspect))
+      #@logger = nil
+      #@logger.debug(sprintf('initialized[%s]: [%s]', self.class, self.inspect))
     end
+
+    def inspect
+      {
+        :name  => @name,
+        :state => @state,
+        :color => @color,
+        :type  => @type,
+      }
+    end
+
+    def to_s
+      inspect.to_s
+    end
+
 
     def on; end
     def off; end

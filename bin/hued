@@ -2,7 +2,7 @@
 # hued - CLI for Hued module
 
 # TODO this could be better in the cases where the gem is installed - but conditionals about requiring are.. not fun
-require sprintf('%s/../lib/hued.rb', File.expand_path(File.dirname(__FILE__)))
+require sprintf('%s/../lib/hued', File.expand_path(File.dirname(__FILE__)))
 
 require 'socket'
 
@@ -22,7 +22,7 @@ def parse_input
   options
 end
 
-face    = ARGV.first
+face    = ARGV.shift # ugh, still don't like this
 options = parse_input
 
 puts "face: #{face}"

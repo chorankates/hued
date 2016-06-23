@@ -7,6 +7,8 @@ require 'optparse'
 require 'yaml'
 require 'uri'
 
+$LOAD_PATH << File.dirname(__FILE__)
+
 require 'hued/hub'
 require 'hued/light'
 require 'hued/scene'
@@ -22,7 +24,7 @@ module Hued
     # TODO add a logger
     def initialize(config)
       @config = config
-      @hub    = Hued::Hub.new(options[:ip], options[:token])
+      @hub    = Hued::Hub.new(config[:ip], config[:token])
     end
 
     def demo
@@ -62,6 +64,26 @@ module Hued
         print sprintf('turning [%s] red', light)
         light.color = 'red'
         sleep 1
+      end
+
+      steps = [0, 25, 50, 75, 100]
+
+      @hub.lights.each do |light|
+        print sprintf('brightness step up [%s]', light)
+        steps.each do |b|
+          print sprintf('[%s]: [%s]', light, b)
+          light.brightness = b
+          sleep 1
+        end
+      end
+
+      @hub.lights.each do |light|
+        print sprintf('brightness step down [%s]', light)
+        steps.reverse.each do |b|
+          print sprintf('[%s]: [%s]', light, b)
+          light.brightness = b
+          sleep 1
+        end
       end
 
       @hub.nyan_cat
@@ -111,24 +133,31 @@ module Hued
     end
 
     def repl
+
+      repl_usage
+      print sprintf('Hued::Hub:[%s]%s', @hub, "\n")
+
       loop do
 
-        repl_usage
         print 'hued> '
 
-        input  = gets()
+        input  = gets.chomp!
         tokens = input.split("\s")
 
-        target  = tokens.pop
-        action  = tokens.pop
+        target  = tokens.shift
+        action  = tokens.shift
         options = tokens
 
 
-        if cmd.match(/q(?:uit)|e(?:xit)/)
+        if target.match(/q(?:uit)|e(?:xit)/)
           break
-        elsif tokens.first.match(/^light/)
+        elsif target.match(/^light/)
           # light control
           p 'foo'
+          if action.eql?('list')
+            @hub.list(@hub.lights)
+          end
+
           if target.eql?('all')
             # operate on all lights
             p 'DBGZ'
@@ -136,36 +165,47 @@ module Hued
             # operate on name, integer, CSV of names|integers, range of integers
             p 'DBGZ'
           end
+
         elsif target.match(/(?:h)elp/)
-          repl_usage
+          repl_usage(action)
         end
 
+        p 'DBGZ' if nil?
       end
 
-      def repl_usage
+    end
+
+    def repl_usage(action = nil)
+      if action.nil?
+        print "usage:\n"
         {
+          :hub      => '<range/name> <action> [options]',
           :light    => '<range/name> <action> [options]',
           :scene    => '<name> <action> [options]',
           :schedule => '<name> <action> [options]',
-          :sensor   => '<range/name> <action> [options]'
-        }.each do |face, parameters|
-          print sprintf('%s %s %s', face.to_s, parameters, "\n")
-        end
-      end
+          :sensor   => '<range/name> <action> [options]',
 
+          :help     => '[action]',
+        }.each do |face, parameters|
+          print sprintf('  %s %s %s', face.to_s, parameters, "\n")
+        end
+
+        print "all targets support the actions[add, delete, list]\n"
+      else
+        # TODO action specific parameters
+      end
 
     end
 
     # TODO the most important code of your life DONT FUCK THIS UP
-    def nyancat
-    end
+    def nyancat; end
 
 
   end
 
   class Utility
     ## helper functions
-    def get_http(url)
+    def self.get_http(url)
       uri      = URI.parse(url)
       http     = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = false
@@ -173,7 +213,7 @@ module Hued
       http.request(request)
     end
 
-    def put_http(url, body)
+    def self.put_http(url, body)
       uri     = URI.parse(url)
       http    = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Put.new(uri.request_uri)

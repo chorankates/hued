@@ -1,8 +1,11 @@
+require 'hued/logging'
 
 module Hued
-
   class Hub
 
+    extend Hued::Logging
+
+    attr_reader :logger
     attr_accessor :config, :lights, :scenes, :schedules, :sensors
 
     # TODO need to break down @config and expose useful pieces
@@ -21,13 +24,12 @@ module Hued
       @schedules = get_schedules()
       @sensors   = get_sensors()
 
-      # TODO add an actual logger
-      @logger = nil
+      @logger = Hued::Logging.get_logger(self.class)
 
-      #@logger.info(sprintf('initialized: [%s]', self.to_s))
-      #@logger.info(sprintf('found[%s] lights: [%s]', @lights.size, @lights.join("\n\t")))
-      #@logger.info(sprintf('found[%s] scenes: [%s]', @scenes.size, @scenes.join("\n\t")))
-      #@logger.info(sprintf('found[%s] schedules: [%s]', @schedules.size, @schedules.join("\n\t")))
+      @logger.debug(sprintf('initialized: [%s]', self.to_s))
+      @logger.info(sprintf('found[%s] lights: [%s]', @lights.size, @lights.join("\n\t")))
+      @logger.info(sprintf('found[%s] scenes: [%s]', @scenes.size, @scenes.join("\n\t")))
+      @logger.info(sprintf('found[%s] schedules: [%s]', @schedules.size, @schedules.join("\n\t")))
     end
 
     def inspect

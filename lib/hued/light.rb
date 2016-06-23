@@ -2,6 +2,8 @@
 module Hued
   class Light
 
+    extend Hued::Logging
+
     # specified in RGB ascending order
     COLORS = {
       :red          => '',
@@ -19,7 +21,7 @@ module Hued
       :white_soft => '',
     }
 
-    attr_reader :struct
+    attr_reader :logger, :struct
     attr_reader :state, :brightness, :color, :reachable, :type, :name, :model, :mac, :version
 
     def initialize(struct)
@@ -35,9 +37,8 @@ module Hued
       @mac        = @struct['uniqueid']
       @version    = @struct['swversion']
 
-      # TODO add a real logger here
-      #@logger = nil
-      #@logger.debug(sprintf('initialized[%s]: [%s]', self.class, self.inspect))
+      @logger = Hued::Logging.get_logger(self.class)
+      @logger.debug(sprintf('initialized[%s]: [%s]', self.class, self.inspect))
     end
 
     def inspect

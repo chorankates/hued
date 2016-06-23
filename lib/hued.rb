@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 ## hued.rb Philips Hue HTTP binding
 
+# TODO create a mock Hub for test/dev, record/playback of a real device should be fine
+
 require 'json'
 require 'net/http'
 require 'optparse'
@@ -11,6 +13,7 @@ $LOAD_PATH << File.dirname(__FILE__)
 
 require 'hued/hub'
 require 'hued/light'
+require 'hued/logging'
 require 'hued/scene'
 require 'hued/schedule'
 require 'hued/sensor'
@@ -19,12 +22,17 @@ module Hued
 
   class Application
 
-    attr_reader :config, :hub
+    extend Hued::Logging
+
+    attr_reader :config, :hub, :logger
 
     # TODO add a logger
     def initialize(config)
       @config = config
       @hub    = Hued::Hub.new(config[:ip], config[:token])
+
+      @logger = Hued::Logging.get_logger(self.class)
+      @logger.debug(sprintf('initialized[%s]: [%s]', self.class, self.inspect))
     end
 
     def demo
@@ -204,6 +212,9 @@ module Hued
   end
 
   class Utility
+
+    # TODO need to figure out how we want to do logging here
+
     ## helper functions
     def self.get_http(url)
       uri      = URI.parse(url)

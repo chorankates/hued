@@ -2,7 +2,9 @@
 module Hued
   class Schedule
 
-    attr_reader :struct
+    extend Hued::Logging
+
+    attr_reader :logger, :struct
     attr_reader :description, :name, :status, :time
 
     # TODO struct['command'] has the way to select a scene
@@ -15,7 +17,8 @@ module Hued
       @status      = @struct['status']
       @time        = @struct['time']
 
-      # TODO add a logger
+      @logger = Hued::Logging.get_logger(self.class)
+      @logger.debug(sprintf('initialized[%s]: [%s]', self.class, self.inspect))
     end
 
     def inspect

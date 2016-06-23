@@ -2,7 +2,9 @@
 module Hued
   class Sensor
 
-    attr_reader :struct
+    extend Hued::Logging
+
+    attr_reader :logger, :struct
     attr_reader :state, :name, :type, :model, :version, :updated
 
     def initialize(struct)
@@ -15,6 +17,8 @@ module Hued
       @updated = @struct['state']['lastupdated']
       @version = @struct['swversion']
 
+      @logger = Hued::Logging.get_logger(self.class)
+      @logger.debug(sprintf('initialized[%s]: [%s]', self.class, self.inspect))
     end
 
     def inspect

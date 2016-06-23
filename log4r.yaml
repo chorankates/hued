@@ -1,0 +1,56 @@
+---
+log4r_config:
+  loggers:
+    - name: Hued::Application
+      level: DEBUG
+      outputters:
+        - logfile
+        - stdout
+    - name: Hued::Utility
+      level: DEBUG
+      outputters:
+        - logfile
+        - stdout
+    - name: Hued::Hub
+      level: DEBUG
+      outputters:
+        - logfile
+        - stdout
+    - name: Hued::Light
+      level: DEBUG
+      outputters:
+        - logfile
+        - stdout
+    - name: Hued::Scene
+      level: DEBUG
+      outputters:
+        - logfile
+        - stdout
+    - name: Hued::Schedule
+      level: DEBUG
+      outputters:
+        - logfile
+        - stdout
+    - name: Hued::Sensor
+      level: DEBUG
+      outputters:
+        - logfile
+        - stdout
+
+  outputters:
+    - type: StdoutOutputter
+      name: stdout
+      formatter:
+        date_pattern: '%Y/%m/%d %H:%M.%S'
+        pattern: '%d - %5l - %7c - %m'
+        type: PatternFormatter
+
+    - type: DateFileOutputter
+      name: logfile
+      date_pattern: '%Y-%m-%d.%H'
+      trunc: false
+      dirname: "#{LOG_ROOT}/"
+      formatter:
+        date_pattern: '%Y/%m/%d %H:%M.%S'
+        pattern: '%d - %5l - %7c - %m'
+        type: PatternFormatter

@@ -2,7 +2,9 @@
 module Hued
   class Scene
 
-    attr_reader :struct
+    extend Hued::Logging
+
+    attr_reader :logger, :struct
     attr_reader :name, :lights, :picture, :updated
 
     def initialize(struct)
@@ -13,7 +15,8 @@ module Hued
       @picture = @struct['picture']
       @updated = @struct['lastupdated']
 
-      # TODO add logger
+      @logger = Hued::Logging.get_logger(self.class)
+      @logger.debug(sprintf('initialized[%s]: [%s]', self.class, self.inspect))
     end
 
     def inspect

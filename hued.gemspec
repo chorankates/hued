@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Conor Horan-Kates"]
-  s.date = "2016-06-22"
+  s.date = "2016-06-23"
   s.description = "interact with Philips Hue Hub to control your devices"
   s.email = ["conor.code@gmail.com"]
   s.executables = ["hued"]
@@ -27,6 +27,14 @@ Gem::Specification.new do |s|
     "bin/hued",
     "hued.gemspec",
     "lib/hued.rb",
+    "lib/hued/hub.rb",
+    "lib/hued/light.rb",
+    "lib/hued/logging.rb",
+    "lib/hued/scene.rb",
+    "lib/hued/schedule.rb",
+    "lib/hued/sensor.rb",
+    "log4r.yaml",
+    "logs/.exists",
     "resources/api/config",
     "resources/api/description.xml"
   ]
@@ -40,14 +48,20 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<json>, [">= 1.8", "~> 1.8.3"])
+      s.add_runtime_dependency(%q<log4r>, [">= 1.1", "~> 1.1.10"])
       s.add_development_dependency(%q<jeweler>, [">= 2.0.1", "~> 2.0.1"])
+      s.add_development_dependency(%q<rake>, [">= 10.5", "~> 10.5.0"])
     else
       s.add_dependency(%q<json>, [">= 1.8", "~> 1.8.3"])
+      s.add_dependency(%q<log4r>, [">= 1.1", "~> 1.1.10"])
       s.add_dependency(%q<jeweler>, [">= 2.0.1", "~> 2.0.1"])
+      s.add_dependency(%q<rake>, [">= 10.5", "~> 10.5.0"])
     end
   else
     s.add_dependency(%q<json>, [">= 1.8", "~> 1.8.3"])
+    s.add_dependency(%q<log4r>, [">= 1.1", "~> 1.1.10"])
     s.add_dependency(%q<jeweler>, [">= 2.0.1", "~> 2.0.1"])
+    s.add_dependency(%q<rake>, [">= 10.5", "~> 10.5.0"])
   end
 end
 

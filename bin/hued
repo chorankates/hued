@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 # hued - CLI for Hued module
 
-# TODO this could be better in the cases where the gem is installed - but conditionals about requiring are.. not fun
+# TODO marshal the light/scene settings to DB so they can be reasoned about
+
+# this isn't required if the gem is installed, but, we can't be sure
 require sprintf('%s/../lib/hued', File.expand_path(File.dirname(__FILE__)))
 
 require 'socket'
@@ -22,7 +24,7 @@ def parse_input
   options
 end
 
-face    = ARGV.shift # ugh, still don't like this
+face    = ARGV.shift
 options = parse_input
 
 puts "face: #{face}"

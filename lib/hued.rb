@@ -156,7 +156,6 @@ module Hued
         action  = tokens.shift
         options = tokens
 
-
         if target.match(/q(?:uit)|e(?:xit)/)
           break
         elsif target.match(/^light/)
@@ -173,7 +172,22 @@ module Hued
             # operate on name, integer, CSV of names|integers, range of integers
             p 'DBGZ'
           end
-
+        elsif target.match(/^hub/)
+          if action.eql?('refresh')
+            @hub.refresh
+          end
+        elsif target.match(/^scene/)
+          if action.eql?('list')
+            @hub.list(@hub.scenes)
+          end
+        elsif target.match(/^schedule/)
+          if action.eql?('list')
+            @hub.list(@hub.schedules)
+          end
+        elsif target.match(/^sensor/)
+          if action.eql?('list')
+            @hub.list(@hub.sensors)
+          end
         elsif target.match(/(?:h)elp/)
           repl_usage(action)
         end
@@ -232,6 +246,21 @@ module Hued
       request.add_field('Content-Type', 'application.json')
       request.body = body.to_json
       http.request(request)
+    end
+
+    def self.ppp(hash, level = 0)
+      output = sprintf('%s{%s', ' ' * level, "\n") # TODO should probably contextualize this and allow for arrays too
+      hash.each do |k, v|
+        if v.is_a?(Hash)
+          output << sprintf('%s%s => %s', ' ' * (level + 1), k, "\n")
+          output << ppp(v, level + 1)
+        else
+          output << sprintf('%s%s => %s%s', ' ' * (level + 1), k, v, "\n")
+        end
+      end
+      output << sprintf('%s}%s', ' ' * level, "\n")
+
+      output
     end
 
   end

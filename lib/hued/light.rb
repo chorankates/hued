@@ -100,8 +100,17 @@ module Hued
       inspect.to_s
     end
 
+    def on?
+      @state.eql?(:on)
+    end
 
-    def on; end
+    def on
+      # TODO implement this
+      url     = get_url('groups/0/action') # TODO this affects _all_ lights, not just us, need to fix
+      payload = { :on => true }
+      Hued::Utility.put_http(url, payload)
+    end
+
     def off; end
 
     def name(new_name = nil)

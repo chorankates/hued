@@ -6,6 +6,7 @@
 # this isn't required if the gem is installed, but, we can't be sure
 require sprintf('%s/../lib/hued', File.expand_path(File.dirname(__FILE__)))
 
+require 'optparse'
 require 'socket'
 
 def parse_input
@@ -18,30 +19,41 @@ def parse_input
     o.on('--token <token>', 'whitelisted token') do |p|
       options[:token] = p
     end
+    o.on('--command <command>', 'face to use') do |p|
+      options[:face] = p
+    end
   end
 
   parser.parse!
   options
 end
 
-face    = ARGV.shift
 options = parse_input
 
-puts "face: #{face}"
+[
+  :ip,
+  :token,
+  :command,
+].each do |r|
+  #raise StandardError.new(sprintf('missing required value[%s]', r)) if options[r].nil? and ! options[:command].eql?('impersonate')
+end
+
 puts "options: #{options}"
 
-a = Hued::Application.new(options)
-
-if face.eql?('impersonate')
-  a.impersonate
-elsif face.eql?('demo')
-  a.demo
-elsif face.eql?('backup')
-  # download all configs/settings
-  a.hub.backup
-elsif face.eql?('restore')
-  # restore all configs/settings
-  a.hub.restore
+if options[:command].eql?('impersonate')
+  Hued::Application.impersonate
 else
-  a.repl
+  a = Hued::Application.new(options)
+
+  if face.eql?('demo')
+    a.demo
+  elsif face.eql?('backup')
+    # download all configs/settings
+    a.hub.backup
+  elsif face.eql?('restore')
+    # restore all configs/settings
+    a.hub.restore
+  else
+    a.repl
+  end
 end

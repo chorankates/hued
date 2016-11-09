@@ -98,8 +98,8 @@ module Hued
 
     end
 
-    def impersonate
-      # stand up a web server
+    def self.impersonate
+      # stand up what looks like a web server
       server = nil
 
       begin
@@ -132,11 +132,13 @@ module Hued
           'Access-Control-Allow-Headers: Content-Type',
           'Content-type: application/json',
           "\r\n",
-          '{"name":"Philips hue","swversion":"01032318","apiversion":"1.13.0","mac":"DE:AD:BE:EF:CA:FE","bridgeid":"001788FFFECAFE","factorynew":false,"replacesbridgeid":null,"modelid":"BSB001"}',
+          get_json_config,
         ].join("\n")
 
         socket.print(response)
         socket.close
+
+        # TODO make it easier to determine the actual token
       end
     end
 
@@ -222,6 +224,10 @@ module Hued
     # TODO the most important code of your life DONT FUCK THIS UP
     def nyancat; end
 
+    def get_json_config
+      config = File.expand_path(sprintf('%s/../resources/api/config', File.dirname(__FILE__)))
+      File.read(config)
+    end
 
   end
 

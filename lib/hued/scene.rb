@@ -32,6 +32,5 @@ module Hued
       inspect.to_s
     end
 
-
   end
 end

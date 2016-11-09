@@ -1,5 +1,8 @@
 require 'hued/logging'
 
+# temporary?
+require 'sequel'
+
 module Hued
   class Hub
 
@@ -124,6 +127,51 @@ module Hued
       url     = get_url('groups/0/action')
       payload = { :on => false }
       Hued::Utility.put_http(url, payload)
+    end
+
+    # TODO should leverage this somehow in initialize, had to externalize for repl
+    def refresh
+      @config = get_config()
+      @lights    = get_lights()
+      @scenes    = get_scenes()
+      @schedules = get_schedules()
+      @sensors   = get_sensors()
+    end
+
+    def initialize_db
+      @db.create_table? :lights do
+        primary_key :id
+        String :name
+        String :state
+        foreign_key :color
+        String :type
+        Date :created
+        Date :updated # this will actually be 'refreshed', will not add duplicate entries
+      end
+
+      @db.create_table? :colors do
+        primary_key :id
+        String :name
+        Fixnum :brightness
+        Fixnum :hue
+        Fixnum :saturation
+        Float :x
+        Float :y
+      end
+
+      @db.create_table? :schedules do
+        primary_key :id
+        String :name
+        foreign_key :scene # ugh, do we care this much?
+        String :schedule # ugh, not sure what the key is here.. WIP
+      end
+
+      @db.create_table? :sensors do
+        primary_key :id
+        String :name
+        String :model
+      end
+
     end
 
     def backup; end

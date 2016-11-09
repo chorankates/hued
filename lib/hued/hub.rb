@@ -30,6 +30,7 @@ module Hued
       @logger.info(sprintf('found[%s] lights: [%s]', @lights.size, @lights.join("\n\t")))
       @logger.info(sprintf('found[%s] scenes: [%s]', @scenes.size, @scenes.join("\n\t")))
       @logger.info(sprintf('found[%s] schedules: [%s]', @schedules.size, @schedules.join("\n\t")))
+      @logger.info(sprintf('found[%s] sensors: [%s]', @sensors.size, @sensors.join("\n\t")))
     end
 
     def inspect

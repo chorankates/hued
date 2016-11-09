@@ -10,5 +10,4 @@ Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE, HEAD
 Access-Control-Allow-Headers: Content-Type
 Content-type: application/json
 
-
-{"name":"Philips hue","swversion":"01035934","apiversion":"1.15.0","mac":"00:17:88:27:23:df","bridgeid":"001788FFFE2723DF","factorynew":false,"replacesbridgeid":null,"modelid":"BSB002"}
+{"name": "Philips hue","swversion": "01032318","apiversion": "1.13.0","mac": "DE:AD:BE:EF:CA:FE","bridgeid": "001788FFFECAFE","factorynew": false,"replacesbridgeid": null,"modelid": "BSB001"}

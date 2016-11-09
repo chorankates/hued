@@ -4,6 +4,7 @@
 
 # generated files
 pkg/*
+logs/*
 
 # other
 resources/research/*

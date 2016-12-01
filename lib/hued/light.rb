@@ -41,14 +41,16 @@ module Hued
 
     # specified in RGB ascending order
     # TODO these are all really 'blue', need to work out details
+    ## trying to look at this from RGB or Hex perspectives yields nothing
+    ### grab an example after changing colors and then we should be closer
     COLORS = {
-      :red          => Hued::Color.new({:name => :red, :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
-      :orange       => Hued::Color.new({:name => :orange, :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
-      :yellow       => Hued::Color.new({:name => :yellow, :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
-      :green        => Hued::Color.new({:name => :green, :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
+      :red          => Hued::Color.new({:name => :red,          :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
+      :orange       => Hued::Color.new({:name => :orange,       :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
+      :yellow       => Hued::Color.new({:name => :yellow,       :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
+      :green        => Hued::Color.new({:name => :green,        :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
       :green_hunter => Hued::Color.new({:name => :green_hunter, :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
-      :blue         => Hued::Color.new({:name => :blue, :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
-      :purple       => Hued::Color.new({:name => :purple, :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
+      :blue         => Hued::Color.new({:name => :blue,         :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
+      :purple       => Hued::Color.new({:name => :purple,       :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
     }
 
     # hey momo, stop throwing shades
@@ -56,6 +58,8 @@ module Hued
       :white      => Hued::Color.new({:name => :white, :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
       :white_soft => Hued::Color.new({:name => :white_soft, :brightness => 253, :hue => 47110, :saturation => 253, :x => 0.1393, :y => 0.0813}),
     }
+
+    COLOR_NAMES = COLORS.keys
 
     attr_reader :logger, :struct
     attr_reader :state, :brightness, :color, :reachable, :type, :name, :model, :mac, :version
@@ -125,10 +129,11 @@ module Hued
       if new_color.nil?
         # TODO come up with a way to normalize the color into a Hued::Light::COLOR
         p 'DBGZ' if nil?
-      elsif COLORS.include?(new_color)
-        @struct.color = new_color
+        @struct.color = COLORS[rand(COLORS_NAMES.size)]
+      elsif COLORS_NAMES.include?(new_color)
+        @struct.color = COLORS[new_color]
       else
-        ## BAD NEWS BEARS
+        ## BAD NEWS BEARS - invalid color specified.. should we just go with screaming pink?.. yes
         @logger.error(sprintf('BAD NEWS BEARS'))
       end
     end

@@ -33,6 +33,9 @@ module Hued
 
       @logger = Hued::Logging.get_logger(self.class)
       @logger.debug(sprintf('initialized[%s]: [%s]', self.class, self.inspect))
+
+      # this (Hued::Light) is probably not the right place to keep this constant - the method is probably ok
+      @colors = Hued::Light::COLOR_NAMES
     end
 
     def demo
@@ -221,12 +224,26 @@ module Hued
 
     end
 
-    # TODO the most important code of your life DONT FUCK THIS UP
-    def nyancat; end
+    def nyancat
+      while true do
+        @hub.lights.each do |light|
+          light.color(next_color)
+        end
+      end
+    end
 
     def get_json_config
       config = File.expand_path(sprintf('%s/../resources/api/config', File.dirname(__FILE__)))
       File.read(config)
+    end
+
+    private
+
+    # returns the next color in a linked-array by shifting and pushing
+    def next_color
+      nc = @colors.shift
+      @colors.push(nc)
+      nc
     end
 
   end
